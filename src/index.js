@@ -1,53 +1,32 @@
 const express = require('express');
 
 //Inicialización
+require('./config/config')
+require('./database/InitDB');
 const app = express();
-//Modelos
-const Trabajadores = require('./models/trabajadores')
-require('./schemas/InitDB');
-var Trabajador = new Trabajadores()
-    Trabajador._id = 3
-    Trabajador.Nombre = "Daniel"
-    Trabajador.Apellidos = "Alcala Fernandez"
-    Trabajador.FechaNac = new Date(2000,1,10)
-    Trabajador.Ocupacion = "Sin ocupación"
-    Trabajador.Sueldo = 1200
-    //Añadir trabajador
-    Trabajador.save((err , trabajadorStored) =>{
-        if (err) return "Error al añadir el trabajador";
-        console.log("Usuario añadido")
-    })
-    //Eliminar trabajador
-    /*Trabajadores.findById(1, function(err, trabajador){
-        if(err) return console.error(err);
-        trabajador.remove(function(err) {
-            if(err) return console.error(err);
-        })
-    })*/
-    //Actualizar trabajador
-    Trabajadores.findById(1, function(err, trabajador){
-        if(err) return console.error(err);
-        trabajador.updateOne({_id: 1},{ Nombre: "AAAAA"}, function(err) {
-            if(err) return console.error(err);
-            console.log("Usuario actualizado");
-        })
-    })
-    //Busqueda de trabajadores
-    Trabajadores.find({Nombre : "Daniel"}, function(err, trabajadores) {
-        if (err) return console.error(err);
-        console.log(trabajadores);
-      });
+//Schemas
+const Trabajadores = require('./schemas/trabajadores');
 //Opciones
 app.set('port', process.env.PORT || 3000);
 //Funciones
-
+const Objeto = require('./helpers/Trabajador');
 //Variables globales
 
 //Rutas
 app.use(require('./routes/index'));
-app.use(require('./routes/users'));
+//app.use(require('./routes/users'));
 //Archivos estaticos
+//app.use(express.static('public'));
+console.log(__dirname);
+app.use('/src', express.static(__dirname + '/public'));
 //Inico servidor
 app.listen(app.get('port'), () =>{
     console.log('Server on port '+ app.get('port'))
 });
+
+var trabajador = new Trabajadores()
+    trabajador._id = 4
+    trabajador.Nombre = "AAA"
+    console.log(trabajador);
+Objeto.anadirTrabajador(trabajador);
+Objeto.buscarTrabajadoresNombre("Daniel");
