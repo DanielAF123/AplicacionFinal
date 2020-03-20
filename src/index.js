@@ -17,8 +17,7 @@ app.use(require('./routes/index'));
 //app.use(require('./routes/users'));
 //Archivos estaticos
 //app.use(express.static('public'));
-console.log(__dirname);
-app.use('/src', express.static(__dirname + '/public'));
+app.use('/', express.static(__dirname + '/public'));
 //Inico servidor
 app.listen(app.get('port'), () =>{
     console.log('Server on port '+ app.get('port'))
